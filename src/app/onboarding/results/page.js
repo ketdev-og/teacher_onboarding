@@ -89,6 +89,10 @@ export default function OnboardingResults() {
                   <p className="font-medium text-gray-900">{allData.personalInfo.dateOfBirth || "Not provided"}</p>
                 </div>
                 <div>
+                  <p className="text-sm text-gray-600">Campus</p>
+                  <p className="font-medium text-gray-900">{allData.personalInfo.campus || "Not specified"}</p>
+                </div>
+                <div>
                   <p className="text-sm text-gray-600">Nationality</p>
                   <p className="font-medium text-gray-900">{allData.personalInfo.nationality || "Not specified"}</p>
                 </div>
@@ -109,6 +113,13 @@ export default function OnboardingResults() {
                   <p className="font-medium text-gray-900">{allData.personalInfo.address || "Not provided"}</p>
                 </div>
               </div>
+              
+              {allData.personalInfo.biography && (
+                <div className="mt-6">
+                  <p className="text-sm text-gray-600">Professional Biography</p>
+                  <p className="font-medium text-gray-900 leading-relaxed">{allData.personalInfo.biography}</p>
+                </div>
+              )}
             </div>
 
             {/* Academic Background */}
@@ -141,49 +152,91 @@ export default function OnboardingResults() {
                 </div>
               </div>
               
+              {/* Educational Background */}
               <div className="mt-6">
                 <h3 className="text-lg font-medium text-gray-800 mb-3">Educational Background</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-600">Education Level</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.education || "Not specified"}</p>
+                {allData.academicInfo.educationalBackground && Array.isArray(allData.academicInfo.educationalBackground) && allData.academicInfo.educationalBackground.length > 0 ? (
+                  <div className="space-y-4">
+                    {allData.academicInfo.educationalBackground.map((education, index) => (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4">
+                        <h4 className="font-medium text-gray-800 mb-2">
+                          {education.level || `Degree ${index + 1}`}
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div>
+                            <p className="text-sm text-gray-600">Degree</p>
+                            <p className="font-medium text-gray-900">{education.degree || "Not specified"}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600">Specialization</p>
+                            <p className="font-medium text-gray-900">{education.specialization || "Not specified"}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600">University</p>
+                            <p className="font-medium text-gray-900">{education.university || "Not specified"}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600">Graduation Year</p>
+                            <p className="font-medium text-gray-900">{education.graduationYear || "Not specified"}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Degree</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.degree || "Not specified"}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Specialization</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.specialization || "Not specified"}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">University</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.university || "Not specified"}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Graduation Year</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.graduationYear || "Not specified"}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Teaching Experience</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.experience || "Not specified"}</p>
-                  </div>
-                  <div className="md:col-span-2">
-                    <p className="text-sm text-gray-600">Additional Degrees/Certifications</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.additionalDegrees || "Not specified"}</p>
-                  </div>
-                  <div className="md:col-span-2">
-                    <p className="text-sm text-gray-600">Previous Institutions</p>
-                    <p className="font-medium text-gray-900">{allData.academicInfo.previousInstitutions || "Not specified"}</p>
-                  </div>
+                ) : (
+                  <p className="font-medium text-gray-900">No educational background provided</p>
+                )}
+              </div>
+              
+              {/* Professional Bodies */}
+              {allData.academicInfo.professionalBodies && (
+                <div className="mt-6">
+                  <h3 className="text-lg font-medium text-gray-800 mb-3">Professional Bodies/Memberships</h3>
+                  <p className="font-medium text-gray-900">{allData.academicInfo.professionalBodies}</p>
                 </div>
+              )}
+              
+              {/* Work Experience */}
+              <div className="mt-6">
+                <h3 className="text-lg font-medium text-gray-800 mb-3">Work Experience</h3>
+                {allData.academicInfo.workExperience && Array.isArray(allData.academicInfo.workExperience) && allData.academicInfo.workExperience.length > 0 ? (
+                  <div className="space-y-4">
+                    {allData.academicInfo.workExperience.map((work, index) => (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4">
+                        <h4 className="font-medium text-gray-800 mb-2">
+                          {work.position || `Position ${index + 1}`}
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div>
+                            <p className="text-sm text-gray-600">Institution</p>
+                            <p className="font-medium text-gray-900">{work.institution || "Not specified"}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600">Duration</p>
+                            <p className="font-medium text-gray-900">
+                              {work.startYear || "Not specified"} - {work.endYear || "Present"}
+                            </p>
+                          </div>
+                          {work.description && (
+                            <div className="md:col-span-2">
+                              <p className="text-sm text-gray-600">Description</p>
+                              <p className="font-medium text-gray-900">{work.description}</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="font-medium text-gray-900">No work experience provided</p>
+                )}
               </div>
             </div>
 
             {/* Research Profile */}
             <div className="border-l-4 border-emerald-600 pl-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Research Profile</h2>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-600">Research Interests</p>
                   <p className="font-medium text-gray-900">{allData.researchInfo.researchInterests || "Not specified"}</p>
@@ -191,6 +244,78 @@ export default function OnboardingResults() {
                 <div>
                   <p className="text-sm text-gray-600">Research Areas</p>
                   <p className="font-medium text-gray-900">{formatArray(allData.researchInfo.researchAreas)}</p>
+                </div>
+                
+                {/* Academic Profile Links */}
+                <div className="mt-6">
+                  <h3 className="text-lg font-medium text-gray-800 mb-3">Academic Profile Links</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {allData.researchInfo.googleScholar && (
+                      <div>
+                        <p className="text-sm text-gray-600">Google Scholar</p>
+                        <a href={allData.researchInfo.googleScholar} target="_blank" rel="noopener noreferrer" className="font-medium text-green-600 hover:text-green-800 break-all">
+                          {allData.researchInfo.googleScholar}
+                        </a>
+                      </div>
+                    )}
+                    {allData.researchInfo.orcid && (
+                      <div>
+                        <p className="text-sm text-gray-600">ORCID</p>
+                        <a href={allData.researchInfo.orcid} target="_blank" rel="noopener noreferrer" className="font-medium text-green-600 hover:text-green-800 break-all">
+                          {allData.researchInfo.orcid}
+                        </a>
+                      </div>
+                    )}
+                    {allData.researchInfo.scopus && (
+                      <div>
+                        <p className="text-sm text-gray-600">SCOPUS</p>
+                        <p className="font-medium text-gray-900 break-all">{allData.researchInfo.scopus}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Publications & Research Output */}
+                <div className="mt-6">
+                  <h3 className="text-lg font-medium text-gray-800 mb-3">Publications & Research Output</h3>
+                  <div className="space-y-4">
+                    {allData.researchInfo.publications && (
+                      <div>
+                        <p className="text-sm text-gray-600">Publications with Links</p>
+                        <p className="font-medium text-gray-900 whitespace-pre-line">{allData.researchInfo.publications}</p>
+                      </div>
+                    )}
+                    {allData.researchInfo.journalPublications && (
+                      <div>
+                        <p className="text-sm text-gray-600">Other Journal Publications</p>
+                        <p className="font-medium text-gray-900 whitespace-pre-line">{allData.researchInfo.journalPublications}</p>
+                      </div>
+                    )}
+                    {allData.researchInfo.presentations && (
+                      <div>
+                        <p className="text-sm text-gray-600">Conference Presentations</p>
+                        <p className="font-medium text-gray-900 whitespace-pre-line">{allData.researchInfo.presentations}</p>
+                      </div>
+                    )}
+                    {allData.researchInfo.awards && (
+                      <div>
+                        <p className="text-sm text-gray-600">Awards & Recognition</p>
+                        <p className="font-medium text-gray-900 whitespace-pre-line">{allData.researchInfo.awards}</p>
+                      </div>
+                    )}
+                    {allData.researchInfo.grants && (
+                      <div>
+                        <p className="text-sm text-gray-600">Research Grants & Funding</p>
+                        <p className="font-medium text-gray-900 whitespace-pre-line">{allData.researchInfo.grants}</p>
+                      </div>
+                    )}
+                    {allData.researchInfo.mediaPublications && (
+                      <div>
+                        <p className="text-sm text-gray-600">Other Media Publications</p>
+                        <p className="font-medium text-gray-900 whitespace-pre-line">{allData.researchInfo.mediaPublications}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -200,12 +325,20 @@ export default function OnboardingResults() {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Professional Experience</h2>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">Professional Bodies/Memberships</p>
-                  <p className="font-medium text-gray-900">{allData.professionalInfo.professionalBodies || "Not specified"}</p>
+                  <p className="text-sm text-gray-600">Consulting Experience</p>
+                  <p className="font-medium text-gray-900">{allData.professionalInfo.consultingExperience || "Not specified"}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Previous Work Experience</p>
-                  <p className="font-medium text-gray-900">{allData.professionalInfo.consultingExperience || "Not specified"}</p>
+                  <p className="text-sm text-gray-600">Industry Projects</p>
+                  <p className="font-medium text-gray-900">{allData.professionalInfo.industryProjects || "Not specified"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Leadership Roles</p>
+                  <p className="font-medium text-gray-900">{allData.professionalInfo.leadership || "Not specified"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Other Professional Activities</p>
+                  <p className="font-medium text-gray-900">{allData.professionalInfo.otherActivities || "Not specified"}</p>
                 </div>
               </div>
             </div>

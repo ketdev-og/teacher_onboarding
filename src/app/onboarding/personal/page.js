@@ -16,7 +16,10 @@ export default function PersonalInfo() {
     localGovernment: "",
     nationality: "Nigerian",
     gender: "",
-    maritalStatus: ""
+    maritalStatus: "",
+    campus: "",
+    profilePicture: null,
+    biography: ""
   });
 
   const handleChange = (e) => {
@@ -47,6 +50,20 @@ export default function PersonalInfo() {
         </div>
 
         <form className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Profile Picture
+            </label>
+            <input
+              type="file"
+              name="profilePicture"
+              accept="image/*"
+              onChange={(e) => setFormData({...formData, profilePicture: e.target.files[0]})}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+            />
+            <p className="text-xs text-gray-500 mt-1">Upload a professional headshot (JPG, PNG, max 5MB)</p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -205,7 +222,23 @@ export default function PersonalInfo() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Campus *
+              </label>
+              <select
+                name="campus"
+                value={formData.campus}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+                required
+              >
+                <option value="">Select campus</option>
+                <option value="Nsukka">Nsukka</option>
+                <option value="Enugu">Enugu</option>
+              </select>
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nationality *
@@ -252,6 +285,20 @@ export default function PersonalInfo() {
               placeholder="Enter your full home address"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
               required
+            ></textarea>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Brief Biography/Profile
+            </label>
+            <textarea
+              name="biography"
+              value={formData.biography}
+              onChange={handleChange}
+              rows={4}
+              placeholder="Write a brief professional biography highlighting your background and expertise"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
             ></textarea>
           </div>
         </form>
