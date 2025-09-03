@@ -8,6 +8,7 @@ export default function OnboardingResults() {
   const [allData, setAllData] = useState({
     personalInfo: {},
     academicInfo: {},
+    instituteCentreInfo: {},
     researchInfo: {},
     professionalInfo: {},
     teachingInfo: {},
@@ -17,6 +18,7 @@ export default function OnboardingResults() {
   useEffect(() => {
     const personalInfo = JSON.parse(localStorage.getItem("personalInfo") || "{}");
     const academicInfo = JSON.parse(localStorage.getItem("academicInfo") || "{}");
+    const instituteCentreInfo = JSON.parse(localStorage.getItem("instituteCentreInfo") || "{}");
     const researchInfo = JSON.parse(localStorage.getItem("researchInfo") || "{}");
     const professionalInfo = JSON.parse(localStorage.getItem("professionalInfo") || "{}");
     const teachingInfo = JSON.parse(localStorage.getItem("teachingInfo") || "{}");
@@ -25,6 +27,7 @@ export default function OnboardingResults() {
     setAllData({
       personalInfo,
       academicInfo,
+      instituteCentreInfo,
       researchInfo,
       professionalInfo,
       teachingInfo,
@@ -35,6 +38,7 @@ export default function OnboardingResults() {
   const handleStartOver = () => {
     localStorage.removeItem("personalInfo");
     localStorage.removeItem("academicInfo");
+    localStorage.removeItem("instituteCentreInfo");
     localStorage.removeItem("researchInfo");
     localStorage.removeItem("professionalInfo");
     localStorage.removeItem("teachingInfo");
@@ -125,15 +129,49 @@ export default function OnboardingResults() {
             {/* Academic Background */}
             <div className="border-l-4 border-green-600 pl-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Academic & Employment Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">Faculty</p>
-                  <p className="font-medium text-gray-900">{allData.academicInfo.faculty || "Not specified"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Department</p>
-                  <p className="font-medium text-gray-900">{allData.academicInfo.department || "Not specified"}</p>
-                </div>
+              <div className="space-y-4">
+                {/* Faculty and Department */}
+                {allData.academicInfo.faculty && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-600">Faculty</p>
+                      <p className="font-medium text-gray-900">{allData.academicInfo.faculty}</p>
+                    </div>
+                    {allData.academicInfo.department && (
+                      <div>
+                        <p className="text-sm text-gray-600">Department</p>
+                        <p className="font-medium text-gray-900">{allData.academicInfo.department}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {/* Institute */}
+                {allData.academicInfo.institute && (
+                  <div>
+                    <p className="text-sm text-gray-600">Institute Affiliation</p>
+                    <p className="font-medium text-gray-900">{allData.academicInfo.institute}</p>
+                  </div>
+                )}
+                
+                {/* Academic Centre */}
+                {allData.academicInfo.center && (
+                  <div>
+                    <p className="text-sm text-gray-600">Academic Centre Affiliation</p>
+                    <p className="font-medium text-gray-900">{allData.academicInfo.center}</p>
+                  </div>
+                )}
+                
+                {/* Show message if no affiliations selected */}
+                {!allData.academicInfo.faculty && !allData.academicInfo.institute && !allData.academicInfo.center && (
+                  <div>
+                    <p className="text-sm text-gray-600">Academic Affiliations</p>
+                    <p className="font-medium text-gray-900">No affiliations specified</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                 <div>
                   <p className="text-sm text-gray-600">Current Position</p>
                   <p className="font-medium text-gray-900">{allData.academicInfo.currentPosition || "Not specified"}</p>
@@ -232,6 +270,67 @@ export default function OnboardingResults() {
                 )}
               </div>
             </div>
+
+            {/* Institute/Centre Profile */}
+            {(allData.instituteCentreInfo && Object.keys(allData.instituteCentreInfo).length > 0) && (
+              <div className="border-l-4 border-blue-600 pl-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Institute/Centre Profile</h2>
+                
+                <div className="space-y-4">
+                  {(allData.academicInfo.institute || allData.academicInfo.center) && (
+                    <div>
+                      <p className="text-sm text-gray-600">Institute/Centre</p>
+                      <p className="font-medium text-gray-900">{allData.academicInfo.institute || allData.academicInfo.center}</p>
+                    </div>
+                  )}
+                  
+                  {allData.instituteCentreInfo.campus && (
+                    <div>
+                      <p className="text-sm text-gray-600">Campus</p>
+                      <p className="font-medium text-gray-900">{allData.instituteCentreInfo.campus}</p>
+                    </div>
+                  )}
+                  
+                  {allData.instituteCentreInfo.instituteBiography && (
+                    <div>
+                      <p className="text-sm text-gray-600">Biography/Profile</p>
+                      <p className="font-medium text-gray-900 whitespace-pre-line">{allData.instituteCentreInfo.instituteBiography}</p>
+                    </div>
+                  )}
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {allData.instituteCentreInfo.mission && (
+                      <div>
+                        <p className="text-sm text-gray-600">Mission</p>
+                        <p className="font-medium text-gray-900">{allData.instituteCentreInfo.mission}</p>
+                      </div>
+                    )}
+                    {allData.instituteCentreInfo.vision && (
+                      <div>
+                        <p className="text-sm text-gray-600">Vision</p>
+                        <p className="font-medium text-gray-900">{allData.instituteCentreInfo.vision}</p>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {allData.instituteCentreInfo.directorName && (
+                    <div>
+                      <p className="text-sm text-gray-600">Director</p>
+                      <p className="font-medium text-gray-900">
+                        {allData.instituteCentreInfo.directorTitle} {allData.instituteCentreInfo.directorName}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {allData.instituteCentreInfo.officialEmail && (
+                    <div>
+                      <p className="text-sm text-gray-600">Contact</p>
+                      <p className="font-medium text-gray-900">{allData.instituteCentreInfo.officialEmail}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Research Profile */}
             <div className="border-l-4 border-emerald-600 pl-6">

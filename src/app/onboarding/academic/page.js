@@ -7,6 +7,8 @@ export default function AcademicInfo() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     faculty: "",
+    institute: "",
+    center: "",
     department: "",
     currentPosition: "",
     employeeId: "",
@@ -31,7 +33,7 @@ export default function AcademicInfo() {
 
   const faculties = {
     "Faculty of Agriculture": ["Agricultural Economics", "Agricultural Extension", "Animal Science", "Crop Science", "Soil Science"],
-    "Faculty of Arts": ["Archaeology and Tourism", "English and Literary Studies", "Fine and Applied Arts", "Foreign Languages and Literatures", "History and International Studies", "Linguistics Igbo and Other Nigerian Languages", "Mass Communication", "Music", "Theatre and Film Studies"],
+    "Faculty of Arts": ["Archaeology and Tourism", "English and Literary Studies", "Fine and Applied Arts", "Foreign Languages and Literatures", "History and International Studies", "Linguistics, Igbo and Other Nigerian Languages", "Mass Communication", "Music", "Theatre and Film Studies"],
     "Faculty of Biological Sciences": ["Biochemistry", "Microbiology", "Molecular Biology and Genetics", "Plant Science and Biotechnology", "Zoology and Environmental Biology"],
     "Faculty of Business Administration": ["Accountancy", "Banking and Finance", "Marketing", "Management"],
     "Faculty of Education": ["Adult Education", "Arts Education", "Educational Foundations", "Health and Physical Education", "Library and Information Science", "Science Education", "Social Science Education", "Vocational Teacher Education"],
@@ -43,13 +45,44 @@ export default function AcademicInfo() {
     "Faculty of Pharmaceutical Sciences": ["Clinical Pharmacy and Pharmacy Management", "Pharmaceutical and Medicinal Chemistry", "Pharmaceutical Microbiology and Biotechnology", "Pharmaceutical Technology and Industrial Pharmacy", "Pharmacognosy and Environmental Medicines", "Pharmacology and Toxicology"],
     "Faculty of Physical Sciences": ["Computer Science", "Geology", "Mathematics", "Physics and Astronomy", "Pure and Industrial Chemistry", "Statistics"],
     "Faculty of Social Sciences": ["Economics", "Geography", "Philosophy", "Political Science", "Psychology", "Public Administration and Local Government", "Religion and Cultural Studies", "Social Work", "Sociology and Anthropology"],
-    "Faculty of Veterinary Medicine": ["Veterinary Anatomy", "Veterinary Medicine", "Veterinary Obstetrics and Reproductive Diseases", "Veterinary Parasitology and Entomology", "Veterinary Pathology and Microbiology", "Veterinary Physiology and Pharmacology", "Veterinary Public Health and Preventive Medicine", "Veterinary Surgery"],
-    "Institute of Education": ["Institute of Education"],
-    "Institute for Development Studies": ["Institute for Development Studies"],
-    "Institute of African Studies": ["Institute of African Studies"],
-    "Institute of Maritime Studies": ["Institute of Maritime Studies"],
-    "Institute of Maternal and Child Health": ["Institute of Maternal and Child Health"]
+    "Faculty of Veterinary Medicine": ["Veterinary Anatomy", "Veterinary Medicine", "Veterinary Obstetrics and Reproductive Diseases", "Veterinary Parasitology and Entomology", "Veterinary Pathology and Microbiology", "Veterinary Physiology and Pharmacology", "Veterinary Public Health and Preventive Medicine", "Veterinary Surgery"]
   };
+
+  const institutes = [
+    "Institute of Education",
+    "Institute for Development Studies",
+    "Institute of African Studies",
+    "Institute of Maritime Studies",
+    "Institute of Maternal and Child Health"
+  ];
+
+  const centers = [
+    "Centre for American Studies",
+    "Centre for Basic Space Research",
+    "Curriculum Development and Instructional Materials",
+    "Centre for Environmental Management and Control (CEMAC)",
+    "Centre for Igbo Studies",
+    "Centre for Energy Research and Development",
+    "Centre for Entrepreneurial and Development Research",
+    "Centre for Rural Development and Co-operatives",
+    "Centre for Technical and Vocational Education, Training and Research",
+    "Centre for Rural Development and Cooperatives (CRDC)",
+    "UNN Consult",
+    "Youth Friendly Resource Centre",
+    "Vaccine Research Centre",
+    "Biotech Centre",
+    "Space Centre",
+    "Computing Centre",
+    "Equipment Centre",
+    "Medical Centre",
+    "Youth Centre",
+    "Climate Change",
+    "Information & Communication Technology Centre",
+    "Energy Research Centre",
+    "Resource & Environmental Policy Research Centre",
+    "Directorate of Strategic Contacts, Ethics & Publications",
+    "Gender & Development Policy Centre"
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -117,7 +150,13 @@ export default function AcademicInfo() {
 
   const handleNext = () => {
     localStorage.setItem("academicInfo", JSON.stringify(formData));
-    router.push("/onboarding/research");
+    
+    // Check if Institute or Centre is selected
+    if (formData.institute || formData.center) {
+      router.push("/onboarding/institute-centre");
+    } else {
+      router.push("/onboarding/research");
+    }
   };
 
   const handleBack = () => {
@@ -128,7 +167,7 @@ export default function AcademicInfo() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-2xl p-8 max-w-3xl w-full">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Basic Academic Information</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Academic Information</h1>
           <p className="text-gray-600">Step 2 of 6 - Your employment and educational background</p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
             <div className="bg-green-600 h-2 rounded-full" style={{width: '33.33%'}}></div>
@@ -137,46 +176,82 @@ export default function AcademicInfo() {
 
         <form className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Faculty Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Faculty *
+                Faculty (Optional)
               </label>
               <select
                 name="faculty"
                 value={formData.faculty}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-                required
               >
-                <option value="">Select Faculty/Institute/Centre</option>
+                <option value="">Select Faculty</option>
                 {Object.keys(faculties).map(faculty => (
                   <option key={faculty} value={faculty}>{faculty}</option>
                 ))}
               </select>
             </div>
+
+            {/* Department Selection - Only shows when Faculty is selected */}
+            {formData.faculty && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Department
+                </label>
+                <select
+                  name="department"
+                  value={formData.department}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+                >
+                  <option value="">Select Department</option>
+                  {faculties[formData.faculty] && faculties[formData.faculty].map(dept => (
+                    <option key={dept} value={dept}>{dept}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Institute Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Department *
+                Institute (Optional)
               </label>
               <select
-                name="department"
-                value={formData.department}
+                name="institute"
+                value={formData.institute}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-                required
-                disabled={!formData.faculty}
               >
-                <option value="">
-                  {formData.faculty ? "Select Department" : "Select Faculty first"}
-                </option>
-                {formData.faculty && faculties[formData.faculty] && faculties[formData.faculty].map(dept => (
-                  <option key={dept} value={dept}>{dept}</option>
+                <option value="">Select Institute</option>
+                {institutes.map(institute => (
+                  <option key={institute} value={institute}>{institute}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Center Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Academic Centre (Optional)
+              </label>
+              <select
+                name="center"
+                value={formData.center}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+              >
+                <option value="">Select Academic Centre</option>
+                {centers.map(center => (
+                  <option key={center} value={center}>{center}</option>
                 ))}
               </select>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Current Position *

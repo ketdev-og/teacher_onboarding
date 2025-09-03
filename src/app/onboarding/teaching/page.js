@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function TeachingPreferences() {
   const router = useRouter();
+  const [showInstituteStep, setShowInstituteStep] = useState(false);
   const [formData, setFormData] = useState({
     subjects: [],
     levels: [],
@@ -77,14 +78,24 @@ export default function TeachingPreferences() {
     router.push("/onboarding/professional");
   };
 
+  useEffect(() => {
+    // Check if Institute/Centre step was shown by looking at academicInfo
+    const academicInfo = JSON.parse(localStorage.getItem("academicInfo") || "{}");
+    if (academicInfo.institute || academicInfo.center) {
+      setShowInstituteStep(true);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-2xl p-8 max-w-3xl w-full">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Teaching Preferences</h1>
-          <p className="text-gray-600">Step 5 of 6 - Your teaching style and preferences</p>
+          <p className="text-gray-600">
+            Step {showInstituteStep ? '6' : '5'} of {showInstituteStep ? '7' : '6'} - Your teaching style and preferences
+          </p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-            <div className="bg-green-600 h-2 rounded-full" style={{width: '83.33%'}}></div>
+            <div className="bg-green-600 h-2 rounded-full" style={{width: showInstituteStep ? '85.71%' : '83.33%'}}></div>
           </div>
         </div>
 

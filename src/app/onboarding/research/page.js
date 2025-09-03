@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ResearchProfile() {
   const router = useRouter();
+  const [showInstituteStep, setShowInstituteStep] = useState(false);
   const [formData, setFormData] = useState({
     researchInterests: "",
     researchAreas: [],
@@ -67,17 +68,32 @@ export default function ResearchProfile() {
   };
 
   const handleBack = () => {
-    router.push("/onboarding/academic");
+    // Check if we came from institute/centre step
+    if (showInstituteStep) {
+      router.push("/onboarding/institute-centre");
+    } else {
+      router.push("/onboarding/academic");
+    }
   };
+
+  useEffect(() => {
+    // Check if Institute/Centre step was shown by looking at academicInfo
+    const academicInfo = JSON.parse(localStorage.getItem("academicInfo") || "{}");
+    if (academicInfo.institute || academicInfo.center) {
+      setShowInstituteStep(true);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-2xl p-8 max-w-3xl w-full">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Research Profile</h1>
-          <p className="text-gray-600">Step 3 of 6 - Your research interests and publications</p>
+          <p className="text-gray-600">
+            Step {showInstituteStep ? '4' : '3'} of {showInstituteStep ? '7' : '6'} - Your research interests and publications
+          </p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-            <div className="bg-green-600 h-2 rounded-full" style={{width: '50%'}}></div>
+            <div className="bg-green-600 h-2 rounded-full" style={{width: showInstituteStep ? '57.14%' : '50%'}}></div>
           </div>
         </div>
 
