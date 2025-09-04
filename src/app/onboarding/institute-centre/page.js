@@ -502,9 +502,10 @@ export default function InstituteCentreProfile() {
                 >
                   <option value="">Select Title</option>
                   <option value="Prof.">Prof.</option>
-                  <option value="Associate Prof.">Associate Prof.</option>
+                  <option value="Ass. Prof.">Ass. Prof.</option>
                   <option value="Dr.">Dr.</option>
                   <option value="Engr.">Engr.</option>
+                  <option value="Esq.">Esq.</option>
                   <option value="Barr.">Barr.</option>
                   <option value="Mr.">Mr.</option>
                   <option value="Mrs.">Mrs.</option>

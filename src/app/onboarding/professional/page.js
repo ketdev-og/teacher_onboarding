@@ -7,8 +7,7 @@ export default function ProfessionalExperience() {
   const router = useRouter();
   const [showInstituteStep, setShowInstituteStep] = useState(false);
   const [formData, setFormData] = useState({
-    professionalBodies: "",
-    consultingExperience: ""
+    professionalBodies: ""
   });
 
   const handleChange = (e) => {
@@ -63,19 +62,6 @@ export default function ProfessionalExperience() {
             ></textarea>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Previous Work Experience
-            </label>
-            <textarea
-              name="consultingExperience"
-              value={formData.consultingExperience}
-              onChange={handleChange}
-              rows={3}
-              placeholder="Describe previous work experience, industry background, or consulting work"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-            ></textarea>
-          </div>
         </form>
 
         <div className="flex justify-between mt-8">

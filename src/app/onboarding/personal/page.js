@@ -18,7 +18,7 @@ export default function PersonalInfo() {
     gender: "",
     maritalStatus: "",
     campus: "",
-    profilePicture: null,
+    academicTitle: "",
     biography: ""
   });
 
@@ -52,16 +52,28 @@ export default function PersonalInfo() {
         <form className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Profile Picture
+              Academic Title
             </label>
-            <input
-              type="file"
-              name="profilePicture"
-              accept="image/*"
-              onChange={(e) => setFormData({...formData, profilePicture: e.target.files[0]})}
+            <select
+              name="academicTitle"
+              value={formData.academicTitle}
+              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-            />
-            <p className="text-xs text-gray-500 mt-1">Upload a professional headshot (JPG, PNG, max 5MB)</p>
+            >
+              <option value="">Select Title</option>
+              <option value="Sir">Sir</option>
+              <option value="Dame">Dame</option>
+              <option value="Prof.">Prof.</option>
+              <option value="Ass. Prof.">Ass. Prof.</option>
+              <option value="Dr.">Dr.</option>
+              <option value="Engr.">Engr.</option>
+              <option value="Esq.">Esq.</option>
+              <option value="Barr.">Barr.</option>
+              <option value="Mr.">Mr.</option>
+              <option value="Mrs.">Mrs.</option>
+              <option value="Ms.">Ms.</option>
+              <option value="Miss">Miss</option>
+            </select>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

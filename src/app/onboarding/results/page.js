@@ -74,7 +74,10 @@ export default function OnboardingResults() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-600">Name</p>
-                  <p className="font-medium text-gray-900">{allData.personalInfo.firstName} {allData.personalInfo.lastName}</p>
+                  <p className="font-medium text-gray-900">
+                    {allData.personalInfo.academicTitle && `${allData.personalInfo.academicTitle} `}
+                    {allData.personalInfo.firstName} {allData.personalInfo.lastName}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Gender</p>
@@ -173,8 +176,8 @@ export default function OnboardingResults() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                 <div>
-                  <p className="text-sm text-gray-600">Current Position</p>
-                  <p className="font-medium text-gray-900">{allData.academicInfo.currentPosition || "Not specified"}</p>
+                  <p className="text-sm text-gray-600">Rank</p>
+                  <p className="font-medium text-gray-900">{allData.academicInfo.rank || "Not specified"}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Employee ID</p>
@@ -424,20 +427,8 @@ export default function OnboardingResults() {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Professional Experience</h2>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">Consulting Experience</p>
-                  <p className="font-medium text-gray-900">{allData.professionalInfo.consultingExperience || "Not specified"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Industry Projects</p>
-                  <p className="font-medium text-gray-900">{allData.professionalInfo.industryProjects || "Not specified"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Leadership Roles</p>
-                  <p className="font-medium text-gray-900">{allData.professionalInfo.leadership || "Not specified"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Other Professional Activities</p>
-                  <p className="font-medium text-gray-900">{allData.professionalInfo.otherActivities || "Not specified"}</p>
+                  <p className="text-sm text-gray-600">Professional Bodies/Memberships</p>
+                  <p className="font-medium text-gray-900">{allData.professionalInfo.professionalBodies || "Not specified"}</p>
                 </div>
               </div>
             </div>
