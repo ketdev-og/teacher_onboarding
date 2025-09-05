@@ -23,7 +23,7 @@ export default function Home() {
             Welcome to University of Nigeria
           </h1>
           <p className="text-gray-600 mb-8">
-            Complete your Academic Staff Profile to get started with your academic journey.
+            Complete your Academic / Institutional Profile.
           </p>
           <button
 
