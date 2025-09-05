@@ -312,7 +312,7 @@ export default function InstituteCentreProfile() {
 
   const handleNext = () => {
     localStorage.setItem("instituteCentreInfo", JSON.stringify(formData));
-    router.push("/onboarding/research");
+    router.push("/onboarding/results");
   };
 
   const handleBack = () => {
@@ -324,9 +324,9 @@ export default function InstituteCentreProfile() {
       <div className="bg-white rounded-xl shadow-2xl p-8 max-w-4xl w-full">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Institute/Centre Profile</h1>
-          <p className="text-gray-600">Step 3 of 7 - Profile information for your Institute or Academic Centre</p>
+          <p className="text-gray-600">Step 2 of 2 - Complete your Institute/Centre Profile</p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-            <div className="bg-green-600 h-2 rounded-full" style={{width: '42.86%'}}></div>
+            <div className="bg-green-600 h-2 rounded-full" style={{width: '100%'}}></div>
           </div>
         </div>
 
@@ -2210,7 +2210,7 @@ export default function InstituteCentreProfile() {
             onClick={handleNext}
             className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
-            Next
+            Complete
           </button>
         </div>
       </div>

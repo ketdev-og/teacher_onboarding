@@ -31,11 +31,11 @@ export default function PersonalInfo() {
 
   const handleNext = () => {
     localStorage.setItem("personalInfo", JSON.stringify(formData));
-    router.push("/onboarding/academic");
+    router.push("/onboarding/research");
   };
 
   const handleBack = () => {
-    router.push("/");
+    router.push("/onboarding/academic");
   };
 
   return (
@@ -43,9 +43,9 @@ export default function PersonalInfo() {
       <div className="bg-white rounded-xl shadow-2xl p-8 max-w-3xl w-full">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Personal Information</h1>
-          <p className="text-gray-600">Step 1 of 6 - Tell us about yourself</p>
+          <p className="text-gray-600">Step 2 of ? - Tell us about yourself</p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-            <div className="bg-green-600 h-2 rounded-full" style={{width: '16.67%'}}></div>
+            <div className="bg-green-600 h-2 rounded-full" style={{width: '33.33%'}}></div>
           </div>
         </div>
 

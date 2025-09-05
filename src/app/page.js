@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
   
   const startOnboarding = () => {
-    router.push("/onboarding/personal");
+    router.push("/onboarding/academic");
   };
 
   return (
@@ -26,6 +26,7 @@ export default function Home() {
             Complete your Academic Staff Profile to get started with your academic journey.
           </p>
           <button
+
             onClick={startOnboarding}
             className="bg-green-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors w-full"
           >

@@ -151,16 +151,17 @@ export default function AcademicInfo() {
   const handleNext = () => {
     localStorage.setItem("academicInfo", JSON.stringify(formData));
     
-    // Check if Institute or Centre is selected
+    // Check if Institute or Centre is selected (Institute/Centre ONLY flow)
     if (formData.institute || formData.center) {
       router.push("/onboarding/institute-centre");
     } else {
-      router.push("/onboarding/research");
+      // Faculty only - continue with full onboarding flow
+      router.push("/onboarding/personal");
     }
   };
 
   const handleBack = () => {
-    router.push("/onboarding/personal");
+    router.push("/");
   };
 
   return (
@@ -168,9 +169,9 @@ export default function AcademicInfo() {
       <div className="bg-white rounded-xl shadow-2xl p-8 max-w-3xl w-full">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Academic Information</h1>
-          <p className="text-gray-600">Step 2 of 6 - Your employment and educational background</p>
+          <p className="text-gray-600">Step 1 of ? - Your academic affiliation and background</p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-            <div className="bg-green-600 h-2 rounded-full" style={{width: '33.33%'}}></div>
+            <div className="bg-green-600 h-2 rounded-full" style={{width: '16.67%'}}></div>
           </div>
         </div>
 

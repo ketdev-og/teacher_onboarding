@@ -72,7 +72,7 @@ export default function ResearchProfile() {
     if (showInstituteStep) {
       router.push("/onboarding/institute-centre");
     } else {
-      router.push("/onboarding/academic");
+      router.push("/onboarding/personal");
     }
   };
 
@@ -90,10 +90,10 @@ export default function ResearchProfile() {
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Research Profile</h1>
           <p className="text-gray-600">
-            Step {showInstituteStep ? '4' : '3'} of {showInstituteStep ? '7' : '6'} - Your research interests and publications
+            Step {showInstituteStep ? '4' : '3'} of {showInstituteStep ? '7' : '5'} - Your research interests and publications
           </p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-            <div className="bg-green-600 h-2 rounded-full" style={{width: showInstituteStep ? '57.14%' : '50%'}}></div>
+            <div className="bg-green-600 h-2 rounded-full" style={{width: showInstituteStep ? '57.14%' : '60%'}}></div>
           </div>
         </div>
 
