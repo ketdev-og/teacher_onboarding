@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function AcademicInfo() {
   const router = useRouter();
   const [formData, setFormData] = useState({
+    affiliationType: "", // "faculty", "institute", "center"
     faculty: "",
     institute: "",
     center: "",
@@ -67,7 +68,16 @@ export default function AcademicInfo() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "faculty") {
+    if (name === "affiliationType") {
+      setFormData({
+        ...formData,
+        [name]: value,
+        faculty: "",
+        institute: "",
+        center: "",
+        department: ""
+      });
+    } else if (name === "faculty") {
       setFormData({
         ...formData,
         [name]: value,
@@ -83,18 +93,42 @@ export default function AcademicInfo() {
 
 
   const handleNext = () => {
+    // Validation based on affiliation type
+    if (!formData.affiliationType) {
+      alert("Please select an affiliation type");
+      return;
+    }
+
+    if (formData.affiliationType === "faculty") {
+      if (!formData.faculty) {
+        alert("Please select a Faculty");
+        return;
+      }
+      if (!formData.department) {
+        alert("Please select a Department");
+        return;
+      }
+    } else if (formData.affiliationType === "institute") {
+      if (!formData.institute) {
+        alert("Please select an Institute");
+        return;
+      }
+    } else if (formData.affiliationType === "center") {
+      if (!formData.center) {
+        alert("Please select an Academic Centre");
+        return;
+      }
+    }
+
     localStorage.setItem("academicAffiliation", JSON.stringify(formData));
     
-    // Check if Faculty is selected to determine next step
-    if (formData.faculty) {
-      // Faculty selected - go to new academic details step
+    // Route based on affiliation type
+    if (formData.affiliationType === "faculty") {
+      // Faculty selected - go to academic details step
       router.push("/onboarding/academic-details");
-    } else if (formData.institute || formData.center) {
-      // Institute or Centre only - go to institute-centre flow
-      router.push("/onboarding/institute-centre");
     } else {
-      // Nothing selected - stay on current step or show validation
-      alert("Please select at least one: Faculty, Institute, or Academic Centre");
+      // Institute or Centre - go to institute-centre flow
+      router.push("/onboarding/institute-centre");
     }
   };
 
@@ -114,81 +148,117 @@ export default function AcademicInfo() {
         </div>
 
         <form className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Faculty Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Faculty (Optional)
-              </label>
-              <select
-                name="faculty"
-                value={formData.faculty}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-              >
-                <option value="">Select Faculty</option>
-                {Object.keys(faculties).map(faculty => (
-                  <option key={faculty} value={faculty}>{faculty}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Department Selection - Only shows when Faculty is selected */}
-            {formData.faculty && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Department
-                </label>
-                <select
-                  name="department"
-                  value={formData.department}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-                >
-                  <option value="">Select Department</option>
-                  {faculties[formData.faculty] && faculties[formData.faculty].map(dept => (
-                    <option key={dept} value={dept}>{dept}</option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {/* Institute Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Institute (Optional)
-              </label>
-              <select
-                name="institute"
-                value={formData.institute}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-              >
-                <option value="">Select Institute</option>
-                {institutes.map(institute => (
-                  <option key={institute} value={institute}>{institute}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Center Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Academic Centre (Optional)
-              </label>
-              <select
-                name="center"
-                value={formData.center}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
-              >
-                <option value="">Select Academic Centre</option>
-                {centers.map(center => (
-                  <option key={center} value={center}>{center}</option>
-                ))}
-              </select>
-            </div>
+          {/* Step 1: Affiliation Type Selection */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Select Affiliation Type *
+            </label>
+            <select
+              name="affiliationType"
+              value={formData.affiliationType}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+              required
+            >
+              <option value="">Choose your affiliation type</option>
+              <option value="faculty">Faculty</option>
+              <option value="institute">Institute</option>
+              <option value="center">Academic Centre</option>
+            </select>
           </div>
+
+          {/* Step 2: Show relevant dropdowns based on affiliation type */}
+          {formData.affiliationType && (
+            <div className="border-t pt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Faculty Selection */}
+                {formData.affiliationType === "faculty" && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Faculty *
+                      </label>
+                      <select
+                        name="faculty"
+                        value={formData.faculty}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+                        required
+                      >
+                        <option value="">Select Faculty</option>
+                        {Object.keys(faculties).map(faculty => (
+                          <option key={faculty} value={faculty}>{faculty}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Department Selection - Only shows when Faculty is selected */}
+                    {formData.faculty && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Department *
+                        </label>
+                        <select
+                          name="department"
+                          value={formData.department}
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+                          required
+                        >
+                          <option value="">Select Department</option>
+                          {faculties[formData.faculty] && faculties[formData.faculty].map(dept => (
+                            <option key={dept} value={dept}>{dept}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Institute Selection */}
+                {formData.affiliationType === "institute" && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Institute *
+                    </label>
+                    <select
+                      name="institute"
+                      value={formData.institute}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+                      required
+                    >
+                      <option value="">Select Institute</option>
+                      {institutes.map(institute => (
+                        <option key={institute} value={institute}>{institute}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Center Selection */}
+                {formData.affiliationType === "center" && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Academic Centre *
+                    </label>
+                    <select
+                      name="center"
+                      value={formData.center}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900"
+                      required
+                    >
+                      <option value="">Select Academic Centre</option>
+                      {centers.map(center => (
+                        <option key={center} value={center}>{center}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </form>
 
         <div className="flex justify-between mt-8">
